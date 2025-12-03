@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyStore - Premium Products</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+        }
+        .product-card {
+            box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px -5px rgba(0, 0, 0, 0.15);
+        }
+        .pay-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+        }
+        .pay-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(102, 126, 234, 0.5);
+        }
+        .pay-button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-white shadow-sm">
+        <div class="container mx-auto px-4 py-6 flex justify-between items-center">
+            <div class="flex items-center">
+                <i class="fas fa-store text-3xl text-indigo-600 mr-3"></i>
+                <h1 class="text-2xl font-bold text-gray-800">MyStore</h1>
+            </div>
+            <nav>
+                <ul class="flex space-x-6">
+                    <li><a href="#" class="text-gray-600 hover:text-indigo-600 transition">Home</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-indigo-600 transition">Products</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-indigo-600 transition">About</a></li>
+                    <li><a href="#" class="text-gray-600 hover:text-indigo-600 transition">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 bg-gradient-to-r from-indigo-50 to-purple-50">
+        <div class="container mx-auto px-4 text-center fade-in">
+            <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Premium Wireless Headphones</h2>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto mb-8">Experience crystal clear sound with our latest noise-canceling technology</p>
+            <a href="#product" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition">Shop Now</a>
+        </div>
+    </section>
+
+    <!-- Product Section -->
+    <section id="product" class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Featured Product</h2>
+            
+            <div class="max-w-md mx-auto bg-white rounded-xl overflow-hidden product-card fade-in">
+                <div class="relative h-64 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" 
+                         alt="Premium Headphones" 
+                         class="h-48 object-contain">
+                    <div class="absolute top-4 right-4 bg-indigo-600 text-white text-xs font-bold px-2 py-1 rounded-full">NEW</div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-gray-800">SoundMax Pro</h3>
+                        <div class="flex items-center">
+                            <i class="fas fa-star text-yellow-400 mr-1"></i>
+                            <span class="text-gray-700">4.9</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 mb-4">Premium wireless headphones with active noise cancellation and 30-hour battery life.</p>
+                    
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <span class="text-2xl font-bold text-gray-800">$199.99</span>
+                            <span class="text-sm text-gray-500 line-through ml-2">$249.99</span>
+                        </div>
+                        <div class="text-sm text-green-600 font-medium">20% OFF</div>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <div class="flex items-center justify-between text-sm text-gray-500 mb-1">
+                            <span>Color:</span>
+                            <span class="font-medium text-gray-700">Matte Black</span>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button class="w-6 h-6 rounded-full bg-gray-800 border-2 border-gray-800"></button>
+                            <button class="w-6 h-6 rounded-full bg-gray-300 border-2 border-gray-300"></button>
+                            <button class="w-6 h-6 rounded-full bg-indigo-600 border-2 border-indigo-600"></button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center border rounded-lg overflow-hidden">
+                            <button id="decrease" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition">-</button>
+                            <span id="quantity" class="px-4">1</span>
+                            <button id="increase" class="px-3 py-1 bg-gray-100 hover:bg-gray-200 transition">+</button>
+                        </div>
+                        <button id="payButton" class="flex-1 pay-button text-white py-3 px-6 rounded-lg font-medium">
+                            <i class="fas fa-shopping-bag mr-2"></i> Buy Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Why Choose Our Products</h2>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center fade-in" style="animation-delay: 0.1s;">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-headphones text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Premium Sound</h3>
+                    <p class="text-gray-600">Crystal clear audio with deep bass and crisp highs for an immersive experience.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center fade-in" style="animation-delay: 0.2s;">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-battery-full text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">Long Battery Life</h3>
+                    <p class="text-gray-600">Up to 30 hours of playtime on a single charge with quick charging capability.</p>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-sm text-center fade-in" style="animation-delay: 0.3s;">
+                    <div class="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <i class="fas fa-shield-alt text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">2-Year Warranty</h3>
+                    <p class="text-gray-600">Peace of mind with our comprehensive warranty and excellent customer support.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4 flex items-center">
+                        <i class="fas fa-store mr-2"></i> MyStore
+                    </h3>
+                    <p class="text-gray-400">Premium products for your everyday life. Quality you can trust.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Shop</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">All Products</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Featured</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">New Arrivals</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Sale</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">FAQs</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Shipping</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Returns</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Connect</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-indigo-600 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-indigo-600 transition">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-indigo-600 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-700 rounded-full flex items-center justify-center hover:bg-indigo-600 transition">
+                            <i class="fab fa-pinterest"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 MyStore. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Payment Modal -->
+    <div id="paymentModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 max-w-md w-full mx-4 fade-in">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-bold text-gray-800">Complete Your Purchase</h3>
+                <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="mb-6">
+                <div class="flex justify-between mb-2">
+                    <span class="text-gray-600">SoundMax Pro × <span id="modalQuantity">1</span></span>
+                    <span class="font-medium">$<span id="modalPrice">199.99</span></span>
+                </div>
+                <div class="flex justify-between mb-2">
+                    <span class="text-gray-600">Shipping</span>
+                    <span class="font-medium">Free</span>
+                </div>
+                <div class="border-t pt-2 flex justify-between font-bold text-lg">
+                    <span>Total</span>
+                    <span>$<span id="modalTotal">199.99</span></span>
+                </div>
+            </div>
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 mb-1">Card Number</label>
+                    <div class="relative">
+                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600" placeholder="1234 5678 9012 3456">
+                        <div class="absolute right-3 top-2">
+                            <i class="fab fa-cc-visa text-blue-900 mx-1"></i>
+                            <i class="fab fa-cc-mastercard text-red-500 mx-1"></i>
+                            <i class="fab fa-cc-amex text-blue-500 mx-1"></i>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-1">Expiry Date</label>
+                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600" placeholder="MM/YY">
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-1">CVV</label>
+                        <input type="text" class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-600 focus:border-indigo-600" placeholder="123">
+                    </div>
+                </div>
+                <button type="button" id="confirmPayment" class="w-full pay-button text-white py-3 px-6 rounded-lg font-medium">
+                    <i class="fas fa-lock mr-2"></i> Pay $<span id="confirmTotal">199.99</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="successToast" class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center hidden z-50">
+        <i class="fas fa-check-circle mr-2"></i>
+        <span>Payment successful! Your order has been placed.</span>
+    </div>
+
+    <script>
+        // Quantity controls
+        const decreaseBtn = document.getElementById('decrease');
+        const increaseBtn = document.getElementById('increase');
+        const quantityEl = document.getElementById('quantity');
+        const payButton = document.getElementById('payButton');
+        const paymentModal = document.getElementById('paymentModal');
+        const closeModal = document.getElementById('closeModal');
+        const confirmPayment = document.getElementById('confirmPayment');
+        const successToast = document.getElementById('successToast');
+        
+        // Modal elements
+        const modalQuantity = document.getElementById('modalQuantity');
+        const modalPrice = document.getElementById('modalPrice');
+        const modalTotal = document.getElementById('modalTotal');
+        const confirmTotal = document.getElementById('confirmTotal');
+        
+        let quantity = 1;
+        const price = 199.99;
+        
+        // Update quantity
+        function updateQuantity() {
+            quantityEl.textContent = quantity;
+            modalQuantity.textContent = quantity;
+            
+            const total = (quantity * price).toFixed(2);
+            modalPrice.textContent = total;
+            modalTotal.textContent = total;
+            confirmTotal.textContent = total;
+        }
+        
+        // Event listeners
+        decreaseBtn.addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                updateQuantity();
+            }
+        });
+        
+        increaseBtn.addEventListener('click', () => {
+            quantity++;
+            updateQuantity();
+        });
+        
+        // Open payment modal
+        payButton.addEventListener('click', () => {
+            paymentModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        // Close payment modal
+        closeModal.addEventListener('click', () => {
+            paymentModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        });
+        
+        // Confirm payment
+        confirmPayment.addEventListener('click', () => {
+            paymentModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            
+            // Show success toast
+            successToast.classList.remove('hidden');
+            setTimeout(() => {
+                successToast.classList.add('hidden');
+            }, 5000);
+        });
+        
+        // Close modal when clicking outside
+        paymentModal.addEventListener('click', (e) => {
+            if (e.target === paymentModal) {
+                paymentModal.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Initialize animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const fadeElements = document.querySelectorAll('.fade-in');
+            fadeElements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+    </script>
+</body>
+</html>

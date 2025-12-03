@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Payment | StripePay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js"></script>
+    <script src="https://unpkg.com/feather-icons"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        @tailwind base;
+        @tailwind components;
+        @tailwind utilities;
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        /* Custom focus styles */
+        input:focus, button:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(84, 105, 212, 0.3);
+        }
+
+        /* Smooth transitions */
+        button, input {
+            transition: all 0.15s ease;
+        }
+
+        /* Custom shadow for the card */
+        .shadow-sm {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+
+        #card-element {
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            background-color: #f9fafb;
+        }
+
+        #card-errors {
+            color: #dc2626;
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+    </style>
+</head>
+<body class="font-inter bg-gray-50 min-h-screen flex items-center justify-center p-4">
+    <main class="w-full max-w-md">
+        <div class="bg-white rounded-xl shadow-sm p-6 space-y-6">
+            <!-- Header -->
+            <header class="text-center space-y-1">
+                <h1 class="text-2xl font-semibold text-gray-900">Secure Payment</h1>
+                <p class="text-sm text-gray-500">Powered by Stripe</p>
+            </header>
+
+            <!-- Amount Input -->
+            <div class="space-y-2">
+                <label class="block text-sm font-medium text-gray-700">Enter Amount (₹)</label>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <span class="text-gray-500">₹</span>
+                    </div>
+                    <input id="amount" type="number" placeholder="100.00" value="100" class="block w-full pl-8 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" inputmode="decimal">
+                </div>
+            </div>
+
+            <!-- Card Section -->
+            <div class="space-y-3">
+                <h2 class="text-lg font-medium text-gray-900">Card Details</h2>
+                <div id="card-element" class="border border-gray-300 rounded-lg bg-gray-50"></div>
+                <div id="card-errors" role="alert"></div>
+                <p class="text-xs text-gray-500">Your card information is securely handled by Stripe.</p>
+            </div>
+
+            <!-- Customer Info -->
+            <!-- Customer Info -->
+            <div class="space-y-4">
+                <h2 class="text-lg font-medium text-gray-900">Your Details</h2>
+                
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Full Name *</label>
+                    <input id="name" type="text" placeholder="John Doe" required class="block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Email *</label>
+                    <input id="email" type="email" placeholder="john@example.com" required class="block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Phone Number *</label>
+                    <input id="phone" type="tel" placeholder="+91 98765 43210" required class="block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Address *</label>
+                    <input id="address" type="text" placeholder="123 Main Street" required class="block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">City *</label>
+                        <input id="city" type="text" placeholder="Mumbai" required class="block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block text-sm font-medium text-gray-700">Postal Code *</label>
+                        <input id="postal" type="text" placeholder="400001" required class="block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Country *</label>
+                    <input id="country" type="text" placeholder="India" value="India" required class="block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="block text-sm font-medium text-gray-700">Description/Notes</label>
+                    <textarea id="description" placeholder="Enter order details or notes..." class="block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500" rows="3"></textarea>
+                </div>
+            </div>
+
+            <!-- Pay Button -->
+            <button id="pay" class="w-full py-3 px-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-sm transition-colors duration-150 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                Pay Securely
+            </button>
+
+            <!-- Status Box -->
+            <div id="status" class="bg-gray-100 rounded-lg p-3 text-center hidden">
+                <p id="statusText" class="text-sm text-gray-700">Processing...</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        feather.replace();
+        
+        let stripe;
+        let elements;
+        let card;
+        const API_BASE_URL = window.location.origin;
+
+        async function init() {
+            // Fetch publishable key from backend
+            try {
+                const cfg = await fetch(`${API_BASE_URL}/config`).then(r => r.json());
+                if (!cfg.publishableKey) {
+                    document.getElementById('status').classList.remove('hidden');
+                    document.getElementById('statusText').textContent = 'Publishable key not found. Set STRIPE_PUBLISHABLE in .env';
+                    return;
+                }
+                
+                stripe = Stripe(cfg.publishableKey);
+                elements = stripe.elements();
+                card = elements.create('card');
+                card.mount('#card-element');
+
+                card.on('change', event => {
+                    const displayError = document.getElementById('card-errors');
+                    displayError.textContent = event.error ? event.error.message : '';
+                });
+
+                document.getElementById('pay').addEventListener('click', handlePayment);
+            } catch (err) {
+                console.error('Initialization error:', err);
+                document.getElementById('status').classList.remove('hidden');
+                document.getElementById('statusText').textContent = 'Failed to initialize. Check console.';
+            }
+        }
+
+        async function handlePayment(e) {
+            e.preventDefault();
+            
+            // Collect all customer details
+            const amount = parseInt(document.getElementById('amount').value * 100, 10); // Convert to paise
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const postal = document.getElementById('postal').value.trim();
+            const country = document.getElementById('country').value.trim();
+            const description = document.getElementById('description').value.trim();
+
+            // Validate all required fields
+            if (!amount || amount <= 0) return alert('Enter a valid amount');
+            if (!name) return alert('Enter your full name');
+            if (!email) return alert('Enter your email');
+            if (!phone) return alert('Enter your phone number');
+            if (!address) return alert('Enter your address');
+            if (!city) return alert('Enter your city');
+            if (!postal) return alert('Enter your postal code');
+            if (!country) return alert('Enter your country');
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) return alert('Enter a valid email address');
+
+            const statusEl = document.getElementById('status');
+            const statusText = document.getElementById('statusText');
+            statusEl.classList.remove('hidden', 'bg-green-100');
+            statusEl.classList.add('bg-blue-100');
+            statusText.textContent = 'Creating payment intent...';
+
+            try {
+                // Create payment intent on backend with all customer details
+                const res = await fetch(`${API_BASE_URL}/create-payment-intent`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'idempotency-key': 'demo-' + Date.now() },
+                    body: JSON.stringify({ 
+                        amount, 
+                        metadata: { 
+                            name, 
+                            email, 
+                            phone, 
+                            address, 
+                            city, 
+                            postal, 
+                            country, 
+                            description 
+                        } 
+                    })
+                });
+                const data = await res.json();
+                if (data.error) {
+                    statusText.textContent = 'Error: ' + data.error;
+                    statusEl.classList.add('bg-red-100');
+                    return;
+                }
+
+                const clientSecret = data.clientSecret;
+                statusText.textContent = 'Confirming card payment...';
+
+                // Confirm card payment with Stripe
+                const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                    payment_method: { card, billing_details: { name, email } }
+                });
+
+                if (error) {
+                    statusText.textContent = 'Payment failed: ' + error.message;
+                    statusEl.classList.add('bg-red-100');
+                } else {
+                    statusText.textContent = 'Payment status: ' + paymentIntent.status;
+                    statusEl.classList.remove('bg-blue-100');
+                    statusEl.classList.add('bg-green-100');
+                }
+            } catch (err) {
+                console.error('Payment error:', err);
+                statusText.textContent = 'Payment error: ' + err.message;
+                statusEl.classList.add('bg-red-100');
+            }
+        }
+
+        // Initialize on page load
+        init();
+    </script>
+</body>
+</html>
