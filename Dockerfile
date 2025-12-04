@@ -14,9 +14,8 @@ RUN npm install
 COPY backend.js .
 COPY stripe-mock.js .
 COPY migrations.sql .
-
-# Copy frontend files
-COPY frontend.html ./frontend/index.html
+COPY frontend.html .
+COPY styles.css .
 
 # Expose port
 EXPOSE 3000

@@ -24,7 +24,12 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 
 // serve static frontend
-app.use(express.static(path.join(__dirname, '..', 'frontend')));
+app.use(express.static(path.join(__dirname)));
+
+// Serve frontend.html as root
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'frontend.html'));
+});
 
 // Raw body only for webhook route
 app.use('/webhook', bodyParser.raw({ type: 'application/json' }));
