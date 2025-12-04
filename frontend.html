@@ -143,6 +143,7 @@
         let stripe;
         let elements;
         let card;
+        let isMockMode = false;
         const API_BASE_URL = window.location.origin;
 
         async function init() {
@@ -155,15 +156,24 @@
                     return;
                 }
                 
-                stripe = Stripe(cfg.publishableKey);
-                elements = stripe.elements();
-                card = elements.create('card');
-                card.mount('#card-element');
+                // Detect mock mode (test key is too short or contains placeholder)
+                isMockMode = cfg.publishableKey.length < 50 || cfg.publishableKey.includes('*');
+                
+                if (!isMockMode) {
+                    // Real Stripe mode
+                    stripe = Stripe(cfg.publishableKey);
+                    elements = stripe.elements();
+                    card = elements.create('card');
+                    card.mount('#card-element');
 
-                card.on('change', event => {
-                    const displayError = document.getElementById('card-errors');
-                    displayError.textContent = event.error ? event.error.message : '';
-                });
+                    card.on('change', event => {
+                        const displayError = document.getElementById('card-errors');
+                        displayError.textContent = event.error ? event.error.message : '';
+                    });
+                } else {
+                    // Mock mode - just show a message
+                    document.getElementById('card-element').innerHTML = '<div style="padding: 15px; background: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; color: #92400e;"><strong>Test Mode:</strong> Using mock payment processor. Any card will be accepted.</div>';
+                }
 
                 document.getElementById('pay').addEventListener('click', handlePayment);
             } catch (err) {
@@ -205,7 +215,7 @@
             const statusText = document.getElementById('statusText');
             statusEl.classList.remove('hidden', 'bg-green-100');
             statusEl.classList.add('bg-blue-100');
-            statusText.textContent = 'Creating payment intent...';
+            statusText.textContent = 'Processing payment...';
 
             try {
                 // Create payment intent on backend with all customer details
@@ -233,21 +243,30 @@
                     return;
                 }
 
-                const clientSecret = data.clientSecret;
-                statusText.textContent = 'Confirming card payment...';
-
-                // Confirm card payment with Stripe
-                const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-                    payment_method: { card, billing_details: { name, email } }
-                });
-
-                if (error) {
-                    statusText.textContent = 'Payment failed: ' + error.message;
-                    statusEl.classList.add('bg-red-100');
-                } else {
-                    statusText.textContent = 'Payment status: ' + paymentIntent.status;
+                if (isMockMode) {
+                    // Mock mode - simulate successful payment
+                    statusText.textContent = '✓ Payment successful (mock mode)! Payment ID: ' + data.id;
                     statusEl.classList.remove('bg-blue-100');
                     statusEl.classList.add('bg-green-100');
+                    console.log('Mock payment processed:', data);
+                } else {
+                    // Real Stripe mode
+                    const clientSecret = data.clientSecret;
+                    statusText.textContent = 'Confirming card payment...';
+
+                    // Confirm card payment with Stripe
+                    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                        payment_method: { card, billing_details: { name, email } }
+                    });
+
+                    if (error) {
+                        statusText.textContent = 'Payment failed: ' + error.message;
+                        statusEl.classList.add('bg-red-100');
+                    } else {
+                        statusText.textContent = 'Payment status: ' + paymentIntent.status;
+                        statusEl.classList.remove('bg-blue-100');
+                        statusEl.classList.add('bg-green-100');
+                    }
                 }
             } catch (err) {
                 console.error('Payment error:', err);
@@ -259,5 +278,3 @@
         // Initialize on page load
         init();
     </script>
-</body>
-</html>

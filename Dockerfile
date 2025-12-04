@@ -12,6 +12,7 @@ RUN npm install
 
 # Copy backend files
 COPY backend.js .
+COPY stripe-mock.js .
 COPY migrations.sql .
 
 # Copy frontend files

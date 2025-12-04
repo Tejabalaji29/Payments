@@ -3,12 +3,18 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const Stripe = require('stripe');
+const MockStripe = require('./stripe-mock');
 const { Pool } = require('pg');
 const crypto = require('crypto');
 const path = require('path');
 const cors = require('cors');
 
-const stripe = Stripe(process.env.STRIPE_SECRET);
+// Use mock Stripe if key is not a real test key
+const isRealStripeKey = (key) => key && key.startsWith('sk_test_') && key.length > 30 && !key.includes('*');
+const stripe = isRealStripeKey(process.env.STRIPE_SECRET) 
+  ? Stripe(process.env.STRIPE_SECRET)
+  : new MockStripe(process.env.STRIPE_SECRET);
+
 const pool = new Pool({ connectionString: process.env.DATABASE_URL });
 
 const app = express();
