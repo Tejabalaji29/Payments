@@ -35,12 +35,10 @@ heroku addons:create heroku-postgresql:hobby-dev -a $AppName -ErrorAction Contin
 
 # Set environment variables
 Write-Host "🔑 Setting environment variables (MOCK MODE - update with real Stripe keys)" -ForegroundColor Yellow
-heroku config:set `
-    STRIPE_SECRET=sk_test_your_key `
-    STRIPE_PUBLISHABLE=pk_test_your_key `
-    STRIPE_WEBHOOK_SECRET=whsec_your_key `
-    NODE_ENV=production `
-    -a $AppName
+heroku config:set STRIPE_SECRET="sk_test_your_key" -a $AppName
+heroku config:set STRIPE_PUBLISHABLE="pk_test_your_key" -a $AppName
+heroku config:set STRIPE_WEBHOOK_SECRET="whsec_your_key" -a $AppName
+heroku config:set NODE_ENV="production" -a $AppName
 
 Write-Host "⚠️  Remember to update Stripe keys at: https://dashboard.heroku.com/apps/$AppName/settings" -ForegroundColor Yellow
 
